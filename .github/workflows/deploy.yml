@@ -1,0 +1,52 @@
+name: EAAS CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - development
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Determine environment
+        id: env
+        run: |
+          if [ "${GITHUB_REF_NAME}" = "main" ]; then
+            echo "ENV=production" >> $GITHUB_OUTPUT
+          else
+            echo "ENV=staging" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy to server
+        run: |
+          echo "Deploying to ${{ steps.env.outputs.ENV }} server..."
+
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+
+            cd /var/www/eaas-platform
+
+            echo "Pulling latest code..."
+            git pull origin ${{ github.ref_name }}
+
+            echo "Installing dependencies..."
+            pip3 install -r requirements.txt || true
+
+            echo "Restarting EAAS service..."
+            sudo systemctl restart eaas || true
+
+            echo "Deployment complete"
+
+          EOF

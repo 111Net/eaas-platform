@@ -2,3 +2,6 @@ fastapi
 uvicorn
 pyjwt
 sqlalchemy
+sqlalchemy
+psycopg2-binary
+alembic
