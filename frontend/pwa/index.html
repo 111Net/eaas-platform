@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EAAS Platform</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+<body style="font-family:Arial; text-align:center; margin-top:100px;">
+  <h1>⚡ EAAS Energy Platform</h1>
+
+  <button onclick="startSystem()"
+    style="padding:20px; font-size:20px;">
+    ▶ Start EAAS System
+  </button>
+
+  <script>
+    async function startSystem() {
+      alert("Starting EAAS backend...");
+
+      await fetch("http://localhost:8000/");
+      window.location.href = "http://localhost:8000/";
+    }
+  </script>
+</body>
+</html>

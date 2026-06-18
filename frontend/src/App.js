@@ -1,10 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function App() {
-  return (
-    <div style={{ padding: 20 }}>
-      <h1>EAAS Platform</h1>
-      <p>Frontend is running successfully 🚀</p>
-    </div>
-  );
+  ...
 }

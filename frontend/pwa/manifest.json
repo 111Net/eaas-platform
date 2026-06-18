@@ -1,0 +1,9 @@
+
+  "name": "EAAS MVP",
+  "short_name": "EAAS",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#00ffcc",
+  "icons": []
+}

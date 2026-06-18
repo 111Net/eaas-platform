@@ -1,25 +1,38 @@
 version: "3.9"
 
 services:
-  backend:
-    image: yourdockerhub/eaas-backend:${TAG:-latest}
-    restart: always
-    ports:
-      - "8000:8000"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
-  frontend:
-    image: yourdockerhub/eaas-frontend:${TAG:-latest}
+  postgres:
+    image: postgres:15
+    container_name: eaas-postgres
     restart: always
+    environment:
+      POSTGRES_USER: eaas_user
+      POSTGRES_PASSWORD: EAAS_Strong_2026!
+      POSTGRES_DB: eaas_db
     ports:
-      - "3000:80"
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
   redis:
     image: redis:7
+    container_name: eaas-redis
     restart: always
     ports:
       - "6379:6379"
+
+  backend:
+    build: ../backend
+    container_name: eaas-backend
+    restart: always
+    environment:
+      DATABASE_URL: postgresql://eaas_user:EAAS_Strong_2026!@postgres:5432/eaas_db
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+
+volumes:
+  postgres_data:
