@@ -1,7 +1,1 @@
-fastapi
-uvicorn
-pyjwt
-sqlalchemy
-sqlalchemy
-psycopg2-binary
-alembic
+psutil==7.2.2
