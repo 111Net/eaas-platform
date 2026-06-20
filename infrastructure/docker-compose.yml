@@ -11,7 +11,7 @@ services:
       POSTGRES_PASSWORD: EAAS_Strong_2026!
       POSTGRES_DB: eaas_db
     ports:
-      - "5432:5432"
+      - "5432:5434"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
