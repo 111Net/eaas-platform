@@ -1,7 +1,8 @@
 #!/bin/bash
 
-cd /opt/eaas/eaas-platform/infrastructure
+cd /opt/eaas/eaas-platform
 
-docker compose up -d
+echo "🚀 Starting EAAS Platform..."
 
-xdg-open http://localhost:8000
+# backend (example fix — replace with real backend later)
+python3 -m http.server 3000
